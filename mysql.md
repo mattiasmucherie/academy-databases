@@ -113,66 +113,71 @@ In the pptx for the Database intro there are slides that explain how to install 
 
 ## 4. SQL CRUD
 
-For the first eight exercises, create a new database/schema named test and set it to default schema in MySQL Workbench.
+For the first eight exercises, create a new database/schema named `test` and set it to default schema in MySQL Workbench.
 
-### 1. Create a table person. The table should contain the following:
+### 1. Creating a Person Table
 
-- Personnummer char(12), may not be null and must be unique.
-- FirstName varchar(100), should have the default value 'okänt'
-- LastName varchar(100), should have the default value 'Okäntsson'
-- Epost varchar(255), should be unique
+Create a table named `person` with the following columns:
 
-Create the table and make sure it exists by refreshing the view and the type in the editor: `DESC person`
+- `Personnummer`: a `char(12)` column that cannot be null and must be unique.
+- `FirstName`: a `varchar(100)` column that has a default value of 'okänt'.
+- `LastName`: a `varchar(100)` column that has a default value of 'Okäntsson'.
+- `Epost`: a `varchar(255)` column that must be unique
 
-### 2. Add a person to the table person with the following data:
+Make sure the table exists by refreshing the view and typing `DESC person` in the editor.
 
-- Personnummer: 123456789012
-- FirstName: Kalle
-- LastName: Kula
-- Epost: kalle@kula.se
+### 2. Add a person to the table person:
 
-Write a query to check that the person is in the table.
+Add a new row to the person table with the following data:
 
-### 3. Birthdays
+- `Personnummer`: 123456789012
+- `FirstName`: Kalle
+- `LastName`: Kula
+- `Epost`: kalle@kula.se
 
-You realize that it would be nice to add the birthdate as a DATE. Modify the table so it have another column named FodelseDag of the type Date.
+Write a query to verify that the person has been added to the table.
 
-Check that table has been changed like in previous task.
+### 3. Adding a Birthdate Column
 
-### 4. Add more data
+Add a new column named `FodelseDag` of the type `DATE` to the `person` table.
 
-Adda new row in the table person. The following data should be specified.
+Check that the table has been changed by refreshing the view and typing `DESC person` in the editor.
 
-- Personnummer: 210987654321
+### 4. Adding More Data
 
-Write a query to check that the data is saved as a row in the table.
+Add a new row to the `person` table with the following data:
 
-### 5. Update a row
+- `Personnummer`: 210987654321
 
-Update the row with personnummer 210987654321 so that the FodelseDag column gets the value '1990-01-01'. Note: Date columns in MySQL will be formatted internally by MySQL as 'YYYY-MM-DD'.
+Write a query to verify that the data has been added to the table.
+
+### 5. Updating a Row
+
+Update the row in the `person` table with `Personnummer` 210987654321 so that the `FodelseDag` column has the value '1990-01-01'.
+
+> Note that MySQL will format date columns as 'YYYY-MM-DD'.
 
 ### 6. Me, myself and I
 
-Add yourself to the person table, Fill out all the fields (You don't have to use your real data if you dont want to.)
+Add yourself to the `person` table by filling out all the columns with appropriate data. You do not have to use your real data if you prefer not to.
 
 ### 7. Lets copy our table (not really)
 
-Add a new table named personCopy. (You don't have to copy the data, just the structure.) Check that the table exists with a suiting command. When you see it's there, remove it with a suiting command.
+Create a new table named `personCopy` that has the same structure as the `person` table. Verify that the table exists using a suitable command, then remove it using a suitable command.
 
 ### 8. **WATCH OUT** Using a built in function
 
-If we extract the name and DOB from the person table, the date on MySQL will come out as an ISO-format (YYYY-MM-DD). Convert the output so it is in the format (MM-DD-YYYY, us-format?).
+Use the `DATE_FORMAT()` function in MySQL to convert the output of a query that extracts the name and date of birth from the `person` table so that the date is in the format 'MM-DD-YYYY'. (USA format :statue_of_liberty:)
 
-> Hint: google the DATE_FORMAT() function in MySQL.
+> Hint: google the `DATE_FORMAT()` function in MySQL.
 
-Update the FodelseDag value for Kalle Kula so the birth date is 1973.02.01. Enter the birth date in that format, but use the STR_TO_DATE() function so MySQL understands the format of the date.
+Update the `FodelseDag` value for the row in the `person` table with `FirstName` 'Kalle' and `LastName` 'Kula' so that the birth date is '1973.02.01'. Enter the birth date in that format, but use the `STR_TO_DATE()` function so that MySQL understands the format of the date.
 
 ### 9. Back to the world
 
-Return back to the world database.
-In the city table, there is a city named 'Bærum', remove it. (It's not a city and should not be in the city table.)
+Return to the world database. Remove the row in the `city` table with the name 'Bærum', as it is not a city and should not be in the table.
 
-Write a sql-query that shows that you've managed to remove that row.
+Write a SQL query that verifies that the row has been removed.
 
 ---
 
@@ -189,13 +194,16 @@ In the following exercises, use the test database we created in earlier exercise
 
 ### 2. Alter table
 
-Use alter table to add a column named ID on the table Person. It should be ID, int, auto_increment and be a primary key. Check that everything works by running a suitable query. You should then see that each row has a unique serial number.
+Use ALTER TABLE to add a column named ID on the table Person.
+It should be ID, int, auto_increment and be a primary key.
+Check that everything works by running a suitable query.
+You should then see that each row has a unique serial number.
 
 ### 3. Bad luck
 
 After a while we realize that we hade a little bit of bad luck when we designed the table person since a person only can have one email address.
 
-Create a new table **Email** that fulfills the following criterias.
+Create a new table **Email** that fulfills the following criteria:
 
 - Address, varchar(75), may not be null and must be unique.
 - Type, varchar(50).
@@ -205,7 +213,7 @@ Create a new table **Email** that fulfills the following criterias.
 
 ### 4. Copy and paste
 
-Write a SQL that copies email adresses and ID's from the person table over to **Address** and **Person_ID** in the **Email** table.
+Write a SQL that copies email addresses and ID's from the person table over to **Address** and **Person_ID** in the **Email** table.
 
 ### 5. Did you copy paste?
 
@@ -213,7 +221,7 @@ When we finished with the third task, and moved email to it's own table, we can 
 
 ### 6. Remove yourself
 
-Try to remove yourself from the Person table and look if it fails. If it not fails, you have missed something in the earlier steps since it should not be possible to remove a person with an **Address** in the **Email** table since the **Email** table contains a reference to the **Person** table.
+Try to remove yourself from the Person table and look if it fails. If it doesn't fail, you have missed something in the earlier steps since it should not be possible to remove a person with an **Address** in the **Email** table since the **Email** table contains a reference to the **Person** table.
 
 Change the **Email** table so it uses the **cascade** constraint when deleting.
 
