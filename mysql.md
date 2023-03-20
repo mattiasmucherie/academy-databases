@@ -9,15 +9,49 @@ In the pptx for the Database intro there are slides that explain how to install 
 ## 2. Run some SQL-Queries
 
 1. Fetch all data from the city table.
+   ```sql
+   SELECT * FROM City;
+   ```
 1. Fetch all data from Sweden (CountryCode="SWE") in the city table.
+   ```sql
+   SELECT * FROM City WHERE CountryCode = 'SWE';
+   ```
 1. Fetch the CityName and Population for Sweden in the city table.
+   ```sql
+   SELECT Name as CityName, Population FROM City WHERE CountryCode = 'SWE';
+   ```
 1. Get the number of countries there is in the database (schema), have a look at the closing slides from the lecture.
+   ```sql
+   SELECT COUNT(*) AS CountryNumber FROM Country;
+   ```
 1. Sum the total of people registered in the world database (schema) and call the column for WorldPopulation.
+   ```sql
+   SELECT SUM(Population) as WorldPopulation FROM Country;
+   ```
 1. Sum how many people there is in Asia.
+   ```sql
+   SELECT SUM(Population) as AsiaPopulation FROM Country WHERE continent = 'Asia';
+   ```
 1. Make a rising ranked list of all countries and their area size, sorted by area. (Try to figure out which columns and tables that are needed)
+   ```sql
+   SELECT Name, surfaceArea FROM country ORDER BY SurfaceArea ASC;
+   ```
 1. Make a ranked list of countries by declining life expectancy and rising population
+   ```sql
+   SELECT Name, LifeExpectancy, Population FROM COuntry
+   ORDER BY LifeExpectancy DESC, Population ASC;
+   ```
 1. Make a list of countries by number of people per square kilometer. (Hint: Look for a table containing population and km2 to get started. Use mathematical operators in the query.)
+   ```sql
+   SELECT Name, Population/SurfaceArea AS Density FROM country
+   ORDER BY Density DESC;
+   ```
 1. List country code, name and independence year, sorted by year and thereafter name, for all the countries that have a independence year. (Hint: something with NULL).
+   ```sql
+   SELECT Code, name, indepYear FROM country
+   WHERE indepYear IS NOT NULL
+   ORDER BY indepYear ASC, name ASC;
+   ```
 
 ---
 
