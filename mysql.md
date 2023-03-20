@@ -58,13 +58,56 @@ In the pptx for the Database intro there are slides that explain how to install 
 ## 3. Run some more SQL-Queries
 
 1. Fetch all countries that have 'W' in their country code.
+
+   ```sql
+   SELECT name, code FROM country
+   WHERE code LIKE '%W%';
+   ```
+
 1. Fetch all countries that the name starts with 'N', 'O' or 'P'. Sort them by name.
+
+   ```sql
+   SELECT name FROM country
+   WHERE name LIKE 'N%' OR name LIKE 'O%' OR name LIKE 'P%'
+   ORDER BY name ASC;
+   ```
+
 1. Retrieve all language data for countries that have an official language spoken by 99% or more of the country's population. Sort by descending percentage, then alphabetically by language.
+   ```sql
+   SELECT * FROM CountryLanguage
+   WHERE percentage >= 99 AND isOfficial = true
+   ORDER BY percentage desc, language asc;
+   ```
 1. Retrieve country code, name and continent for all countries in America (both North America and South America). Sort alphabetically by country code.
+   ```sql
+   SELECT code, name, continent from country
+   WHERE continent LIKE '%America'
+   ORDER BY code ASC;
+   ```
 1. Retrieve the number of countries per continent for all continents.
+   ```sql
+   SELECT COUNT(name) AS numCountry, Continent FROM COUntry
+   GROUP BY Continent;
+   ```
 1. Get the continent and the number of countries in this continent, for those continents that have 30 or more countries. Sort by number of countries in descending order.
+   ```sql
+   SELECT COUNT(name) AS numCountry, Continent FROM COUntry
+   GROUP BY Continent
+   HAVING numCountry > 30
+   ORDER BY numCountry DESC;
+   ```
 1. Summarizes what the total population per continent (ie for all continents) is, sorted by population (descending order).
+   ```sql
+   SELECT Continent, SUM(Population) as popCont FROM Country
+   GROUP BY Continent
+   ORDER BY popCont DESC;
+   ```
 1. Double check the answer from the problem above by summing the numbers per continent by hand (for example with Windows calculator), and then compare them with a new query that retrieves the sum of the world's population.
+
+   ```sql
+   SELECT SUM(Population) as totalPopulation FROM Country;
+   -- YES, it checks out!
+   ```
 
 ---
 
