@@ -126,6 +126,15 @@ Create a table named `person` with the following columns:
 
 Make sure the table exists by refreshing the view and typing `DESC person` in the editor.
 
+```sql
+CREATE TABLE Person (
+	`PersonNummer` VARCHAR(12) NOT NULL UNIQUE,
+    `FirstName` VARCHAR(100) DEFAULT 'Okant',
+    `LastName` VARCHAR(100) DEFAULT 'Okantsson',
+    `Epost` VARCHAR(100)  UNIQUE
+);
+```
+
 ### 2. Add a person to the table person:
 
 Add a new row to the person table with the following data:
@@ -137,11 +146,25 @@ Add a new row to the person table with the following data:
 
 Write a query to verify that the person has been added to the table.
 
+```sql
+INSERT INTO Person(Personnummer, FirstName, LastName, Epost)
+VALUES ('123456789012', 'Kalle', 'Kula', 'kalle@kula.se');
+
+SELECT * FROM Person;
+```
+
 ### 3. Adding a Birthdate Column
 
 Add a new column named `FodelseDag` of the type `DATE` to the `person` table.
 
 Check that the table has been changed by refreshing the view and typing `DESC person` in the editor.
+
+```sql
+ALTER TABLE Person
+ADD FodelsDag DATE;
+
+DESC Person;
+```
 
 ### 4. Adding More Data
 
@@ -151,33 +174,77 @@ Add a new row to the `person` table with the following data:
 
 Write a query to verify that the data has been added to the table.
 
+```sql
+INSERT INTO Person(Personnummer)
+VALUES ('210987654321');
+
+SELECT * FROM Person;
+```
+
 ### 5. Updating a Row
 
 Update the row in the `person` table with `Personnummer` 210987654321 so that the `FodelseDag` column has the value '1990-01-01'.
 
 > Note that MySQL will format date columns as 'YYYY-MM-DD'.
 
+```sql
+UPDATE person
+SET FodelsDag = '1990-01-01'
+WHERE PersonNummer = '210987654321';
+```
+
 ### 6. Me, myself and I
 
 Add yourself to the `person` table by filling out all the columns with appropriate data. You do not have to use your real data if you prefer not to.
+
+```sql
+INSERT INTO Person(PersonNummer, FirstName, LastName, Epost, FodelsDag)
+VALUES ('199001011234', 'Mattias','Mucherie', 'mattiasmucherie@1337.tech', '1993-05-25');
+```
 
 ### 7. Lets copy our table (not really)
 
 Create a new table named `personCopy` that has the same structure as the `person` table. Verify that the table exists using a suitable command, then remove it using a suitable command.
 
+```sql
+CREATE TABLE CopyPerson LIKE Person;
+-- DROP THE Table
+DROP TABLE CopyPerson;
+```
+
 ### 8. **WATCH OUT** Using a built in function
 
 Use the `DATE_FORMAT()` function in MySQL to convert the output of a query that extracts the name and date of birth from the `person` table so that the date is in the format 'MM-DD-YYYY'. (USA format :statue_of_liberty:)
 
+```sql
+SELECT DATE_FORMAT(FodelsDag, '%m-%d-%Y') as BirthDayUS,
+FirstName FROM Person
+```
+
 > Hint: google the `DATE_FORMAT()` function in MySQL.
 
 Update the `FodelseDag` value for the row in the `person` table with `FirstName` 'Kalle' and `LastName` 'Kula' so that the birth date is '1973.02.01'. Enter the birth date in that format, but use the `STR_TO_DATE()` function so that MySQL understands the format of the date.
+
+```sql
+UPDATE Person
+SET FodelsDag = STR_TO_DATE('1973.02.01', '%Y.%m.%d')
+WHERE FirstName = 'Kalle' AND LastName = 'Kula';
+```
 
 ### 9. Back to the world
 
 Return to the world database. Remove the row in the `city` table with the name 'Bærum', as it is not a city and should not be in the table.
 
 Write a SQL query that verifies that the row has been removed.
+
+```sql
+DELETE FROM City
+WHERE Name = 'Bærum';
+```
+
+```sql
+SELECT * FROM City WHERE Name LIKE 'B%rum';
+```
 
 ---
 
