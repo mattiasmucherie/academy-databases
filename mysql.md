@@ -231,9 +231,11 @@ Try again to delete yourself from the Person table. This time it should work. Ch
 
 Use the max() function and fetch the biggest ID in world.city.
 
+Then use this command for the following exercise:
+
 ```SQL
 SELECT * FROM information_schema.tables
---for the world-database.
+-- for the world-database.
 WHERE table_schema = 'world'
 ```
 
