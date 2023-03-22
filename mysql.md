@@ -343,18 +343,73 @@ Write SQL queries that perform the following:
 
   > HINT: You need to find out what is the common column (foreign key to primary key connection) for these two tables.
 
+  ```sql
+   SELECT country.name as CountryName, city.name AS CityName, city.population FROM Country
+   JOIN City ON country.code = city.countrycode
+   WHERE city.name LIKE 'O%o'
+   ORDER By country.name ASC, city.name ASC
+  ```
+
 3. Get out all the countries and their (any) capitals. Sort the result by continent, and then alphabetically by country name.
 
+   ```sql
+   SELECT country.name, city.name, country.Continent FROM country
+   JOIN City ON Country.capital = city.id
+   ORDER BY Country.continent ASC, country.name ASC
+   ```
+
 4. Get an overview of all countries that have at least one city, how many cities they have and the average population in these cities.
+
+   ```sql
+   SELECT country.name, COUNT(city.name), AVG(city.population)
+   FROM Country
+   JOIN City ON Country.code = city.countrycode
+   GROUP BY Country.name
+   ORDER BY Country.name ASC
+   ```
 
 5. We want to bring up all the countries in the world, and all their cities, where the population of the country is less than 1000 people. We will see the name of the country, the population in the country, which continent the country belongs to, the name of any cities there, population in any cities there.  
    We want the result sorted alphabetically by the countries' names. (Hint: My answer gives 10 rows out, is the same number of rows you get?)
 
+   ```sql
+   SELECT co.name AS countryName, ci.name AS cityName, ci.population FROM Country AS co
+   LEFT JOIN city AS ci ON co.code = ci.countrycode
+   WHERE co.population < 1000
+   ORDER BY co.name
+   ```
+
 6. Rank the cities in the world located in a country with some form of monarchical system of government by population. The most populous city first.
+
+   ```sql
+   SELECT co.name as CountryName, ci.name AS CityName,
+   co.GovernmentForm, ci.population
+   FROM Country AS co
+   JOIN city as ci ON co.code = ci.countrycode
+   WHERE co.GovernmentForm LIKE '%Monarchy%'
+   ORDER BY ci.population DESC;
+   ```
 
 7. Get a list of cities in the world that have at least 8,000,000 inhabitants and which continent they belong to. Sort by population, largest first. That is: the city's name, the city's inhabitants and which continent they belong to.
 
+   ```sql
+   SELECT city.name, country.continent, city.population
+   FROM city
+   JOIN country ON country.code = city.countrycode
+   WHERE city.population > 8000000
+   ORDER BY city.population DESC;
+   ```
+
 8. Make a query that brings up an overview of the countries in Asia where at least 10 different languages ​​are spoken. The query must retrieve: Name of country, number of languages ​​and this must be sorted decreasing by number of languages.
+
+   ```sql
+   SELECT country.name, COUNT(countrylanguage.language)
+   FROM countrylanguage
+   JOIN country ON country.code = countrylanguage.countrycode
+   WHERE country.continent = 'Asia'
+   GROUP BY country.name
+   HAVING COUNT(countrylanguage.language) >= 10
+   ORDER BY COUNT(countrylanguage.language) DESC;
+   ```
 
 9. **Difficult**: Create a Horse table and fill in data:
 
@@ -379,11 +434,28 @@ create table Hest(
 
 Make a query that retrieves the names of all the horses and the names of their parents.
 
-> Hint: You can join a table with yourself.. Several times..
+> Hint: You can join a table with itself.. Several times..
 
 The result should look like this:  
  ![Example image 1](./images/ex1.png)
 
+```sql
+SELECT a.navn AS Namn,c.navn AS Far, b.navn AS Mor
+FROM Hest AS a
+LEFT JOIN Hest AS b ON b.id = a.mor
+LEFT JOIN Hest AS c ON c.id = a.far
+```
+
 10. **Difficult**: Expand the query to retrieve the grandparents.
 
 ![Example image 2](./images/ex2.png)
+
+```sql
+SELECT a.navn AS Namn, c.navn AS Far, b.navn AS Mor, d.navn AS FarFar, e.navn AS FarMor, f.navn AS MorFar, g.navn AS MorMor FROM Hest AS a
+LEFT JOIN Hest AS b ON b.id = a.mor
+LEFT JOIN Hest AS c ON c.id = a.far
+LEFT JOIN Hest AS d ON d.id = c.far
+LEFT JOIN Hest AS e ON e.id = c.mor
+LEFT JOIN Hest AS f ON f.id = b.far
+LEFT JOIN Hest AS g ON g.id = b.mor
+```
